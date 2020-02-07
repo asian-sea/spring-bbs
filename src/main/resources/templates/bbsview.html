@@ -6,18 +6,43 @@
 </head>
 <body>
 
-<h2>掲示板アプリケーション</h2>
+<h2>掲示板アプリケーション（非結合）</h2>
 
 <!-- 記事投稿フォーム -->
-<form>
-	投稿者名：<input type="text"/><br>
-	投稿内容：<textarea></textarea><br>
-	<button type="submit">記事投稿</button>
+<form th:action="@{/postarticle}" th:object="${articleForm}" method="post">
+	投稿者名：<input type="text" name="name"/><br>
+	投稿内容：<textarea name="content"></textarea><br>
+	<input type="submit" value="記事投稿">
 </form>
 <hr/>
 
 <!-- 投稿記事表示 -->
-<div th:each=""></div>
+<div th:each="article : ${articleList}">
+	<br>
+	投稿者名：<span th:text="${article.name}">山田</span><br>
+	投稿内容：<span th:text="${article.content}">初投稿</span><br>
+	<!-- 記事削除 -->
+	<form th:action="@{/deletearticle}" th:object="${articleForm}" method="post">
+		<input type="hidden" name="id" th:value="${article.id}">
+		<input type="submit" value="記事削除">
+	</form>
+	<!-- コメント表示 -->
+	<div th:each="comment : ${article.commentList}">
+	<br>
+		コメント者名：<span th:text="${comment.name}">名無し</span><br>
+		コメント内容：<span th:text="${comment.content}">初コメ</span><br>
+	</div>
+	<br>
+	<!-- コメント投稿 -->
+	<form th:action="@{/postcomment}" th:object="${commentForm}" method="post">
+		コメント者名：<input type="text" name="name"><br>
+		コメント内容：<textarea name="content"></textarea><br>
+		<input type="hidden" name="articleId" th:value="${article.id}">
+		<input type="submit" value="コメント投稿">
+	</form>
+	<hr/>
+</div>
+
 
 </body>
 </html>
