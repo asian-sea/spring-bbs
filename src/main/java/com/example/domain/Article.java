@@ -3,7 +3,6 @@ package com.example.domain;
 import java.util.List;
 
 public class Article {
-
 	private Integer id;
 	private String name;
 	private String content;
@@ -46,7 +45,7 @@ public class Article {
 
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", name=" + name + ", content=" + content + "]";
+		return "Article [id=" + id + ", name=" + name + ", content=" + content + ",commentList=" + commentList + "]";
 	}
 
 }

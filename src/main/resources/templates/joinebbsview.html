@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>掲示板</title>
+</head>
+<body>
+
+<h2>掲示板アプリケーション（結合）</h2>
+<!-- 記事投稿フォーム -->
+<form th:action="@{/joined/article}" th:object="${articleForm}">
+	<h3>投稿フォーム</h3>
+	名前：<span th:errors="*{name}" style="color:red; font-size:12px"></span><br>
+	<input type="text" name="name" th:field="*{name}" placeholder="名前を入力してください"><br>
+	内容：<span th:errors="*{content}" style="color:red; font-size:12px"></span><br>
+	<textarea name="content" th:field="*{content}" placeholder="投稿内容を入力してください" cols="30px" rows="5px"></textarea><br>
+	<input type="submit" value="投稿">
+</form>
+<hr>
+<!-- 投稿記事表示 -->
+<div th:each="article : ${articleList}">
+	<span style="font-size:13px">投稿者名：</span><span th:text="${article.name}"></span><br>
+	<span style="font-size:13px">投稿内容：</span><span th:text="${article.content}"></span><br>
+	<form th:action="@{/joined/delete}" method="post">
+		<input type="hidden" name="articleId" th:value="${article.id}">
+		<input type="submit" value="記事削除" />
+	</form>
+	<br>
+	<!-- コメント表示 -->
+	<h3>コメント</h3>
+	<div th:each="comment : ${article.commentList}">
+		<span style="font-size:13px">名前：</span><span th:text="${comment.name}"></span><span style="font-size: 13px"> さん</span><br>
+		<span th:text="${comment.content}"></span><br>
+		<br>
+	</div>
+	<form th:action="@{/joined/comment}" th:object="${commentForm}">
+		<h4>コメント投稿フォーム</h4>
+		名前：<br><input type="text" name="name" placeholder="名前を入力してください">
+		<span th:errors="*{name}" style="color:red; font-size:12px"></span><br>
+		コメント：<br><textarea name="content" cols="30px" rows="5px"></textarea>
+		<span th:errors="*{content}" style="color:red; font-size:12px"></span><br>
+		<input type="hidden" name="articleId" th:value="${article.id}">
+		<input type="submit" value="コメント">
+	</form>
+	<hr/>
+</div>
+</body>
+</html>

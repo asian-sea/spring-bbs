@@ -1,9 +1,15 @@
 package com.example.form;
 
-public class CommentForm {
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+public class CommentForm {
 	private Integer id;
+	@NotNull(message="コメント者名を入力してください")
+	@Size(min=1, max=127, message="コメント者名は1文字以上127文字以内で入力してください")
 	private String name;
+	@NotNull(message="コメントを入力してください")
+	@Size(min=3, message="コメントは3文字以上入力してください")
 	private String content;
 	private Integer articleId;
 
